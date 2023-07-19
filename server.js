@@ -1,0 +1,59 @@
+
+import express from "express"; // для работы этоq команды в файле "package.json" добавлена строка:     "type": "module",
+import fileUpload from 'express-fileupload';
+import cors from "cors";
+// import mongoose from "mongoose";
+import m_Router from './router.js';
+import cookieParser from "cookie-parser";
+import m_errorsMiddleWare from './m_MiddleWares/m_errorsMiddleWare.js';
+import mMiddleWare_assessTokenControl from './m_MiddleWares/mMiddleWare_assessTokenControl.js';
+//=======================
+const PORT = 5075;
+const mServer = express();
+//const mDBmongoose_url = 'mongodb+srv://all_users:all_users@cluster0.bfmbg.mongodb.net/?retryWrites=true&w=majority';
+
+
+// для отправки клиенту данных для Куки, мы в нашем проекте передаем туда рефреш-токен
+mServer.use(cookieParser());
+mServer.use(fileUpload({}));
+// необх для преобр входящей от клиента  строки в JSON
+mServer.use(express.json());
+// тут cors - без указания параметров - работает для всех запросов
+mServer.use(cors());
+
+// ВАЖНО- cвои МидлВары размещаем перед роутером для своей проверки валидности данных
+mServer.use(mMiddleWare_assessTokenControl);
+
+
+// эта (своя) функция обрабатывает входящие запросы от клиента, используя наши функции обработки из файла 'router.js
+mServer.use(m_Router);
+// функция раздачи статических фалов. 'static'-адрес статической папки в корневом каталоге сервера
+mServer.use(express.static('static'));
+
+// =========================
+// Далее идут МидлеВееры
+
+// MiddleWare для обработки ошибок -  длжен располагаться последним в цепочке всех MiddleWare
+mServer.use(m_errorsMiddleWare);
+
+
+async function mStartApp() {
+    try {
+        //await mongoose.connect(mDBmongoose_url);
+        mServer.listen(PORT, () => { console.log("Server is start  " + PORT) });
+    }
+    catch (error) {
+        console.log("m_ Ошибка сервера:");
+        console.log(error);
+    }
+}
+
+
+
+
+
+// =========================
+mStartApp(); // запускаем сервер
+
+// использовать команду:
+//   npm run dev
