@@ -40,7 +40,7 @@ mServer.use(express.static('static'));
 mServer.use(m_errorsMiddleWare);
 
 // предварительно создаем SSL-сервер для HTTPS запросов
-const m_SSL_server = https.createServer(
+const m_HTTPS_server = https.createServer(
     {
         key: fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'),
         cert: fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8')
@@ -54,30 +54,35 @@ const m_SSL_server = https.createServer(
 
 const PORT = 5075;
 async function mStartApp() {
-    
+
+    /* 
         try {
-            //await mongoose.connect(mDBmongoose_url);
-            m_SSL_server.listen(PORT, () => { console.log("Server  is start +SSL  " + PORT) });
+            console.clear();
+            console.log(fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'));
+            console.log(fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8'));
+            m_HTTPS_server.listen(PORT, () => { console.log("Server  is start +SSL  " + PORT) });
         }
         catch (error) {
             console.log("m_ Ошибка сервера:");
             console.log(error);
-        }
-         
+        } 
+     */
 
-/* 
+
+
     try {
-        //await mongoose.connect(mDBmongoose_url);
         mServer.listen(PORT, () => {
-            console.clear();
-            console.log("Server is start  " + PORT)
+            console.clear(); 
+            console.log(fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'));
+            console.log(fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8'));
+            console.log("Server is start  " + PORT) 
         });
     }
     catch (error) {
         console.log("m_ Ошибка сервера:");
         console.log(error);
     }
- */
+
 
 }
 mStartApp(); // запускаем сервер
