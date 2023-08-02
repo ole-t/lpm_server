@@ -72,7 +72,7 @@ async function mStartApp() {
 
     try {
         mServer.listen(PORT, () => {
-            // console.clear(); 
+             console.clear(); 
             // console.log(fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'));
             // console.log(fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8'));
             console.log("Server is start  " + PORT) 
