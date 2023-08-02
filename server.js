@@ -55,34 +55,36 @@ const m_HTTPS_server = https.createServer(
 const PORT = 5075;
 async function mStartApp() {
 
+
+    try {
+        // console.clear(); 
+         console.log(fs.readFileSync('./m_SLL_sertificate/privkey.pem', 'utf8'));
+         console.log(fs.readFileSync('./m_SLL_sertificate/fullchain.pem', 'utf8'));
+        m_HTTPS_server.listen(PORT, () => { console.log("Server  is start +SSL  " + PORT) });
+    }
+    catch (error) {
+        console.log("m_ Ошибка сервера:"); 
+        console.log(error);
+    }
+
+
+
+
+
     /* 
         try {
-            console.clear();
-            console.log(fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'));
-            console.log(fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8'));
-            m_HTTPS_server.listen(PORT, () => { console.log("Server  is start +SSL  " + PORT) });
+            mServer.listen(PORT, () => {
+                 console.clear(); 
+                // console.log(fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'));
+                // console.log(fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8'));
+                console.log("Server is start  " + PORT) 
+            });
         }
         catch (error) {
             console.log("m_ Ошибка сервера:");
             console.log(error);
-        } 
+        }
      */
-
-
-
-    try {
-        mServer.listen(PORT, () => {
-             console.clear(); 
-            // console.log(fs.readFileSync('./m_SLL_sertificate/key.pem', 'utf8'));
-            // console.log(fs.readFileSync('./m_SLL_sertificate/cert.pem', 'utf8'));
-            console.log("Server is start  " + PORT) 
-        });
-    }
-    catch (error) {
-        console.log("m_ Ошибка сервера:");
-        console.log(error);
-    }
-
 
 }
 mStartApp(); // запускаем сервер
