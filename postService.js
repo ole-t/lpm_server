@@ -195,6 +195,20 @@ fff();
 //===============================
 class m_PostService {
 
+    async m_getStartPage_PS(req) {
+        try {
+            let full_data_from_server = {
+                dataBD_fromServer: dataBD_fromServer,
+                userReestr: userReestr,
+                chat_DB: chat_DB
+            }
+            return full_data_from_server;
+        }
+        catch (error) {
+            return ("Ошибка из m_PostService --- m_getStartPage_PS: " + error);
+        }
+    }
+    //----------------------------------
     async m_get_full_data_from_server_PS(req) {
         try {
             let full_data_from_server = {
@@ -869,7 +883,7 @@ class m_PostService {
                 teamList_ofResponsible_subProject: req.body.postDataToServer.teamList_ofResponsible_subProject,
             }
             // ретерним только для корректного закрытия пост-запроса на стороне браузера. Ответ клиенту в чат идет отдельно через LongPulling
-            return dataFromServer; 
+            return dataFromServer;
         }
         catch (error) {
             return ("Ошибка из m_PostService - m_update_ofResponsibleList_subProject_PS: " + error);
@@ -2093,7 +2107,7 @@ class m_PostService {
             }
 
             // далее нужно переадресовать пользователя со страницы подтверждения ссылки на страницу нашей программы. Делаем Редирект. Он передается пользователю как ответ на его ГЕТ-запрос.
-            res.redirect("http://localhost:3000/");
+            res.redirect(mConfigData.clientAdress);
         }
         catch (error) {
             console.log("Ошибка m_confirmRegistrationUser_PS:");
@@ -2182,7 +2196,7 @@ class m_PostService {
             }
 
             // далее нужно переадресовать пользователя со страницы подтверждения ссылки на страницу нашей программы. Делаем Редирект. Он передается пользователю как ответ на его ГЕТ-запрос.
-            res.redirect("http://localhost:3000/");
+            res.redirect(mConfigData.clientAdress);
         }
         catch (error) {
             console.log("Ошибка m_confirmRegistrationUser_PS:");
@@ -2222,7 +2236,7 @@ class m_PostService {
                 // помещаем куки в респонс 
                 res.cookie('refreshToken', dataFromServer.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: false });
                 // устанавливаем параметры для сохранения куки на клиенте:
-                // res.header("Access-Control-Allow-Origin", "http://localhost:3000/");
+                // res.header("Access-Control-Allow-Origin", mConfigData.clientAdress);
                 // res.header("Access-Control-Allow-Origin", req.headers.origin);
                 // res.header('Access-Control-Allow-Credentials', 'true');
                 // удаляем рефреш токен из открытого поля  респонса
@@ -2246,8 +2260,8 @@ class m_PostService {
 
     async m_GoogleAuth_01_PS(req, res) {
         // ВНИМАНИЕ! Мы используем несколько вариантов Гугл-авторизации, и поскольку не удалось разобраться с обменом кода клиента Гугл на токен доступа Гугл - пока что используем зашифрованный локальный PayLoad от клиента
-        // console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
-        // console.log(req.body);
+        console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
+        console.log(req.body);
 
         // Удалить
         // console.log("ПОПЫТКА Кодирования-Раскодирования с паролем= ");
@@ -2329,8 +2343,8 @@ class m_PostService {
                             accessToken: userReestr[finedUserIndex].autorisationData.tokensDifferentGadgets[mGadgetProcess_ID].accessToken,
                         }
 
-                        // console.log("ОТПРАВЛЯЕМ RES из SubDialog_logIn_Form, dataFromServer=");
-                        // console.log(dataFromServer);
+                        console.log("ОТПРАВЛЯЕМ RES из SubDialog_logIn_Form, dataFromServer=");
+                        console.log(dataFromServer);
                         res.status(200).json(dataFromServer);
 
                     } catch (error) {
@@ -2370,7 +2384,7 @@ class m_PostService {
             // client_secret: "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",
             // redirect_uri: "http://localhost:5075/api/sessions/oauth/google",
             // redirect_uri: "http://localhost:5075/auth/google",
-            // redirect_uri: "http://localhost:3000/auth/google",
+            // redirect_uri: "mConfigData.clientAdressauth/google",
             // redirect_uri: "http://localhost:5075/api/sessions/oauth/google",
             // redirect_uri: "http://localhost:5075/GoogleAuth_01",
      
@@ -2828,11 +2842,12 @@ class mUserService__constructor {
             await transporterMail.sendMail({
                 from: "ole-t@ukr.net",
                 to: emailNewUser,
-                subject: "Регистрация нового пользователя на сервере:  http://localhost:5075/ ",
+                subject: "Регистрация нового пользователя на сервере:  litepm.com",
                 text: "",
                 html: '<div> <h3> Для завершения регистрации перейдите по ссылке <br/> (данная ссылка действительна в течение 15 мин.): </h3> <a href= " '
                     // далее идет код гиперсылки - GET-запроса, который сработает, когда пользователь кликнет по ссылке подтверждения авторизации 
-                    + 'http://localhost:5075'
+                    // + 'http://localhost:5075'
+                    + mConfigData.serverAdress
                     // далее вставляем endPoint
                     + '/activate/'
                     + activationLink
@@ -2880,11 +2895,12 @@ class mUserService__constructor {
             await transporterMail.sendMail({
                 from: "ole-t@ukr.net",
                 to: "ole-t@i.ua", // eMail, // исправить изменить
-                subject: "Смена/восстановление пароля на сервере:  http://localhost:5075/ ",
+                subject: "Смена/восстановление пароля на сервере:  litepm.com",
                 text: "",
                 html: '<div> <h3> Для подтверждения изменения пароля перейдите по ссылке <br/> (данная ссылка действительна в течение 15 мин.): </h3> <a href= " '
                     // далее идет код гиперсылки - GET-запроса, который сработает, когда пользователь кликнет по ссылке подтверждения авторизации 
-                    + 'http://localhost:5075'
+                    // + 'http://localhost:5075'
+                    + mConfigData.serverAdress
                     // далее вставляем endPoint
                     + '/confirmChangePassword/'
                     + activationLink
@@ -3308,7 +3324,7 @@ class mFile_service_constructor {
 let mFile_service = new mFile_service_constructor();
 //----------------------------------
 function responseLongPoolling(responseLongPoolling_Data) {
-     console.log("Запуск responseLongPoolling:");
+    console.log("Запуск responseLongPoolling:");
     for (let i = 0; i < listForResponse.length; i++) {
         listForResponse[i].user_ResStack.forEach((mCallBack) => {
             //  console.log("Сработала отправка ответа forEach");
