@@ -2259,8 +2259,21 @@ class m_PostService {
     //----------------------------------
 
     async m_GoogleAuth_01_PS(req, res) {
+
+        console.log("Пробное прочтение файла - m_GoogleAuth_01_PS");
+        try {
+            const pathNameID = './dataBase/' + 'userReestr' + '.json';
+            let data = fs.readFileSync(pathNameID, 'utf8');
+            console.log("Файл успешно прочитан - mLoadUserReestr");
+            console.log(data);
+        } catch (error) {
+            console.log("Ошибка чтения файла - mLoadUserReestr");
+            console.log(error);
+        }
+
+
         // ВНИМАНИЕ! Мы используем несколько вариантов Гугл-авторизации, и поскольку не удалось разобраться с обменом кода клиента Гугл на токен доступа Гугл - пока что используем зашифрованный локальный PayLoad от клиента
-        console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
+        console.log("ЗАПУСК---222 m_GoogleAuth_01_PS req.body= ");
         console.log(req.body);
 
         // Удалить
@@ -2318,8 +2331,8 @@ class m_PostService {
                                 refreshToken: newTokens.refreshToken,
                             };
 
-                            console.log("userReestr[finedUserIndex].autorisationData.tokensDifferentGadgets=");
-                            console.log(userReestr[finedUserIndex].autorisationData.tokensDifferentGadgets);
+                            // console.log("userReestr[finedUserIndex].autorisationData.tokensDifferentGadgets=");
+                            // console.log(userReestr[finedUserIndex].autorisationData.tokensDifferentGadgets);
 
                             // Отмечаем, что регистрация юзера подтверждена (это поле, которое подтверждается при других способах регистрации юзера). Это необходимо, если юзер в дальнейшем захочет логиниться с пом обычного логин/пароль
                             if (!(userReestr[finedUserIndex].autorisationData.isActivatedAsseptLink)) {
@@ -3774,13 +3787,13 @@ function mLoadUserReestr() {
     const pathNameID = './dataBase/' + 'userReestr' + '.json';
     try {
         let data = fs.readFileSync(pathNameID, 'utf8');
-        if ((data != undefined) && (data != null)) {
+        if (data) {
             data = JSON.parse(data);
         }
         return data;
-    } catch (err) {
-        // console.log("Ошибка чтения файла");
-        // console.log(err);
+    } catch (error) {
+        console.log("Ошибка чтения файла - mLoadUserReestr");
+        console.log(error);
         return null;
     }
 }
@@ -3789,13 +3802,12 @@ function mLoadChatDB() {
     const pathNameID = './dataBase/' + 'chatDB' + '.json';
     try {
         let data = fs.readFileSync(pathNameID, 'utf8');
+
         if ((data != undefined) && (data != null)) {
             data = JSON.parse(data);
         }
         return data;
     } catch (err) {
-        // console.log("Ошибка чтения файла");
-        // console.log(err);
         return null;
     }
 }
