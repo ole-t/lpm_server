@@ -2265,25 +2265,27 @@ class m_PostService {
 
     async m_GoogleAuth_01_PS(req, res) {
         // ВНИМАНИЕ! Мы используем несколько вариантов Гугл-авторизации, и поскольку не удалось разобраться с обменом кода клиента Гугл на токен доступа Гугл - пока что используем зашифрованный локальный PayLoad от клиента
-        console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
-        console.log(req.body);
         console.log("=========================");
-        console.log("Пробное прочтение файла - m_GoogleAuth_01_PS");
+        console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
         try {
+            console.log(req.body);
+        } catch (error) {
+            console.log("Ошибка в m_GoogleAuth_01_PS");
+            console.log(error);
+        }
+
+        try {
+            console.log("=========================");
+            console.log("Пробное прочтение файла - m_GoogleAuth_01_PS");
             // const pathNameID = 'dataBase/' + 'userReestr' + '.json';
             const pathNameID = get_valid_adress_fileOrFolder("/dataBase/m_DB.json");
             let data = fs.readFileSync(pathNameID, 'utf8');
             console.log("Файл успешно прочитан - mLoadUserReestr");
-            // console.log(data);
+            // console.log(data); 
         } catch (error) {
             console.log("Ошибка чтения файла - mLoadUserReestr");
             console.log(error);
         }
-
-
-
-
-
 
 
 
@@ -2565,9 +2567,6 @@ class m_PostService {
         let dataFromServer = "Otvet test_01";
         res.status(200).json(dataFromServer);
     }
-
-
-
 
 }
 
@@ -3764,7 +3763,7 @@ async function mSaveFileDB(data) {
     //  console.log(data);
 
     // let pathNameID = './dataBase/' + 'm_DB' + '.json';
-    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/' + 'm_DB' + '.json');
+    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/_DB.json');
     try {
         fs.writeFileSync(pathNameID, JSON.stringify(data));
     } catch (err) {
@@ -3775,7 +3774,7 @@ async function mSaveFileDB(data) {
 //----------------------------------
 async function mSaveUserReestr_inBD(data) {
     // let pathNameID = './dataBase/' + 'userReestr' + '.json';
-    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/' + 'userReestr' + '.json');
+    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
     try {
         fs.writeFileSync(pathNameID, JSON.stringify(data));
     } catch (err) {
@@ -3786,7 +3785,7 @@ async function mSaveUserReestr_inBD(data) {
 //----------------------------------
 function mLoadFileDB() {
     // const pathNameID = './dataBase/' + 'm_DB' + '.json';
-    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/' + 'm_DB' + '.json');
+    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
     try {
         let data = fs.readFileSync(pathNameID, 'utf8');
         // console.log("Выполнено fs.readFileSync:");
@@ -3804,7 +3803,7 @@ function mLoadFileDB() {
 //----------------------------------
 function mLoadUserReestr() {
     // const pathNameID = './dataBase/' + 'userReestr' + '.json';
-    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/' + 'userReestr' + '.json');
+    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
     try {
         let data = fs.readFileSync(pathNameID, 'utf8');
         if ((data != undefined) && (data != null)) {

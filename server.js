@@ -23,7 +23,12 @@ mServer.use(fileUpload({}));
 // необх для преобр входящей от клиента  строки в JSON
 mServer.use(express.json());
 // тут cors - без указания параметров - работает для всех запросов
-mServer.use(cors());
+mServer.use(cors(
+    {
+        // следующую инструкцию использовал, чтобы работали запросу с локального сервера во время разработки на задеплоинный сервер
+        // origin: ["http://localhost:3000/", "https://localhost:3000/",]
+    }
+));
 
 // ВАЖНО- cвои МидлВары размещаем перед роутером для своей проверки валидности данных
 mServer.use(mMiddleWare_assessTokenControl);
@@ -60,9 +65,9 @@ try {
  */
 
 
-const PORT = 5075 ;
+const PORT = 5075;
 async function mStartApp() {
- 
+
     /* 
         try {
             // console.clear(); 
