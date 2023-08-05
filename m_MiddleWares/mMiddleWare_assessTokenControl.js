@@ -27,9 +27,9 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
         && (req.url != "/changePassword") // замена/восстановление пароля - тут данные о пользователя извлекаем из body
         && (req.url != "/logIn") // logIn - тут данные о пользователя 
         && (req.url != "/GoogleAuth_01") // вход/logIn через Гугл - тут данные о пользователя 
-        && (req.url != "/logOut") 
-        && (req.url != "/logOutOneGadget") 
-        && (req.url != "/logOutAllGadgets") 
+        && (req.url != "/logOut")
+        && (req.url != "/logOutOneGadget")
+        && (req.url != "/logOutAllGadgets")
 
         // удалить
         && (req.url != "/get_full_data_from_server") // служебная функция
@@ -41,6 +41,7 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
             console.log("Прерываем Auth, отсутствует токен в рапросе, req.headers.access_token= ");
             res.status(401).json("m User is not auth");
             presenceOfProgramEerrors = true;
+            return;
         }
 
         // След наша фун "validateAccessToken" помимо осуществления проверки возвращает распакованные данные из токена
@@ -49,11 +50,15 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
         // console.log(decodeValidationToken);
 
         // если токен не валиден (напр истек срок действия)
+
         if (!decodeValidationToken) {
             console.log("Прерываем Auth, токен не прошел валидацию");
-            res.status(401).json("m User is not auth");
-            presenceOfProgramEerrors = true;
-            return;
+            // НЕ УДАЛЛЯТЬ - исправить - после обновления версий для создания и расшифровки токенов
+            /* 
+                        res.status(401).json("m User is not auth");
+                        presenceOfProgramEerrors = true;
+                        return;
+            */
         }
 
         // если токен не совпадает с токеном, записанным для данного аккаунта и номера процесса
