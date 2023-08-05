@@ -2839,6 +2839,7 @@ class mUserService__constructor {
         catch (error) {
             console.log("ОШИБКА m_f_refreshToken:");
             console.log(error);
+            return null;
         }
     }
 
@@ -3762,7 +3763,8 @@ async function mSaveFileDB(data) {
     //  console.log("Функция mSaveFileDB, 'data' =");
     //  console.log(data);
 
-    let pathNameID = './dataBase/' + 'm_DB' + '.json';
+    // let pathNameID = './dataBase/' + 'm_DB' + '.json';
+    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/' + 'm_DB' + '.json');
     try {
         fs.writeFileSync(pathNameID, JSON.stringify(data));
     } catch (err) {
@@ -3932,7 +3934,7 @@ function getOnlineTimeCurrentUser(user_Email) {
 }
 //-------------------------------
 // Эта функция возвращает корректный адрес от корневой папки операционной системы до указанных в запросе файлов/папок 
-function get_valid_adress_fileOrFolder(absPathToFile) { 
+function get_valid_adress_fileOrFolder(absPathToFile) {
     try {
         /* 
                 let pathNameID = "/dataBase/dataBase.json";
