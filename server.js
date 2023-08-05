@@ -22,9 +22,10 @@ mServer.use(cookieParser());
 mServer.use(fileUpload({}));
 
 // удалить позже - выведем заголовки входящего запроса
-mServer.use((req, res, next)=>{
+mServer.use((req, res, next) => {
     console.log("");
-    console.log("Запрос на сервер, req.hearers=");
+    console.log("Запрос на сервер, req.url= " + req.url);
+    console.log("req.hearers=");
     console.log(req.headers);
     console.log("");
     next();
