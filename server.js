@@ -27,6 +27,8 @@ mServer.use((req, res, next) => {
     console.log("Запрос на сервер, req.url= " + req.url);
     console.log("req.hearers=");
     console.log(req.headers);
+    console.log("req.body=");
+    console.log(req.body);
     console.log("");
     next();
 })
