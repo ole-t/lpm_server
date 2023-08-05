@@ -4,7 +4,7 @@ import m_PostController from './postController.js';
 const m_Router = new Router(); // этот код работает также без команды "new": const m_Router = Router();
 
 import { body as m_bodyValidator } from 'express-validator';
-import m_authMiddleWare from './m_MiddleWares/m_authMiddleWare.js';
+// import m_authMiddleWare from './m_MiddleWares/m_authMiddleWare.js';
 
 //========================
 
@@ -89,7 +89,7 @@ m_Router.post('/logOutAllGadgets', m_PostController.m_logOutAllGadgets);
 
 m_Router.post('/refreshToken', m_PostController.m_refreshToken);
 // в обработке след запроса - перед выполнением запроса,  используем мидлВеер m_authMiddleWare для проверки авторизации пользоавтеля, а уже затем (в случае отсутствия ошибок во время проверки) - вызываем обработчик запроса в m_PostController  
-m_Router.post('/test_01', m_authMiddleWare, m_PostController.m_test_01);
+// m_Router.post('/test_01', m_authMiddleWare, m_PostController.m_test_01);
 
 m_Router.post('/GoogleAuth_01', m_PostController.m_GoogleAuth_01);
 //========================

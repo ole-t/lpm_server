@@ -4,8 +4,9 @@ import { varsANDfunctions_fromPostService } from '../postService.js';
 
 export default function mMiddleWare_assessTokenControl(req, res, next) {
 
-    // console.log("============= ");
-    // console.log("ЗАПУСК mMidlWare_assessTokenControl");
+    console.log("============= ");
+    console.log("ЗАПУСК mMidlWare_assessTokenControl, req.url= " + req.url);
+    console.log("req.headers.access_token= " + req.headers.access_token);
 
     let presenceOfProgramEerrors = false;
 
@@ -38,16 +39,33 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
     ) {
         // если токен отсутствует
         if (!req.headers.access_token) {
-            console.log("Прерываем Auth, отсутствует токен в рапросе, req.headers.access_token= ");
+            console.log("Прерываем Auth, отсутствует токен в запросе. req.url= " + req.url);
+            console.log(" req.headers.access_token= ");
+            console.log(req.headers.access_token);
+
             res.status(401).json("m User is not auth");
             presenceOfProgramEerrors = true;
             return;
         }
 
         // След наша фун "validateAccessToken" помимо осуществления проверки возвращает распакованные данные из токена
+        console.log("=== ");
         let decodeValidationToken = varsANDfunctions_fromPostService.validateAccessToken(req.headers.access_token);
-        // console.log("decodeValidationToken= ");
-        // console.log(decodeValidationToken);
+
+        
+        console.log("decodeValidationToken С ПОМ jwt.verify= ");
+        console.log(decodeValidationToken);
+        console.log("=== ");
+        console.log("decodeValidationToken С ПОМ jwt_decode = ");
+        console.log(jwt_decode(req.headers.access_token));
+
+        
+
+
+
+
+
+
 
         // если токен не валиден (напр истек срок действия)
 
