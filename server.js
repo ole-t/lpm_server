@@ -20,6 +20,17 @@ import fs from 'fs';
 // для отправки клиенту данных для Куки, мы в нашем проекте передаем туда рефреш-токен
 mServer.use(cookieParser());
 mServer.use(fileUpload({}));
+
+// удалить позже - выведем заголовки входящего запроса
+mServer.use((req, res, next)=>{
+    console.log("");
+    console.log("Запрос на сервер, req.hearers=");
+    console.log(req.headers);
+    console.log("");
+    next();
+})
+
+
 // необх для преобр входящей от клиента  строки в JSON
 mServer.use(express.json());
 // тут cors - без указания параметров - работает для всех запросов
