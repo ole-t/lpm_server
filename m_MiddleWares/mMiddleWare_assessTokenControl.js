@@ -51,7 +51,6 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
         // След наша фун "validateAccessToken" помимо осуществления проверки возвращает распакованные данные из токена
         console.log("=== ");
         let decodeValidationToken = varsANDfunctions_fromPostService.validateAccessToken(req.headers.access_token);
-
         
         console.log("decodeValidationToken С ПОМ jwt.verify= ");
         console.log(decodeValidationToken);

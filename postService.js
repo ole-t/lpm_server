@@ -2545,7 +2545,7 @@ class m_PostService {
         // устанавливаем параметры для сохранения куки на клиенте
         // res.header("Access-Control-Allow-Origin", req.headers.origin);
         // res.header('Access-Control-Allow-Metods', 'GET, POST ');
-        // res.header('Access-Control-Allow-Hearers', 'Content-Type');
+        // res.header('Access-Control-Allow-Headers', 'Content-Type');
         res.header('Access-Control-Allow-Credentials', 'true');
 
 

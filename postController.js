@@ -25,6 +25,14 @@ class m_PostController {
     //---------
     async m_getTopData_ByClient(req, res) {
         try {
+            console.log(" ");
+            console.log("Запуск m_getTopData_ByClient= ");
+            console.log("req.headers=");
+            console.log(req.headers);
+            console.log(" ");
+            console.log("req.body=");
+            console.log(req.body);
+
             const m_postToDB = await m_PostService.m_getTopData_ByClient_PS(req);
             res.status(200).json(m_postToDB);
         } catch (error) {

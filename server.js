@@ -21,19 +21,6 @@ import fs from 'fs';
 mServer.use(cookieParser());
 mServer.use(fileUpload({}));
 
-// удалить позже - выведем заголовки входящего запроса
-mServer.use((req, res, next) => {
-    console.log("");
-    console.log("Запрос на сервер, req.url= " + req.url);
-    console.log("req.hearers=");
-    console.log(req.headers);
-    console.log("req.body=");
-    console.log(req.body);
-    console.log("");
-    next();
-})
-
-
 // необх для преобр входящей от клиента  строки в JSON
 mServer.use(express.json());
 // тут cors - без указания параметров - работает для всех запросов
@@ -44,8 +31,23 @@ mServer.use(cors(
     }
 ));
 
+
+// удалить позже - выведем заголовки входящего запроса
+mServer.use((req, res, next) => {
+    console.log("");
+    console.log("Запрос на сервер, req.url= " + req.url);
+    console.log("req.headers=");
+    console.log(req.headers);
+    console.log("req.body=");
+    console.log(req.body);
+    console.log("");
+    next();
+})
+
+
 // ВАЖНО- cвои МидлВары размещаем перед роутером для своей проверки валидности данных
-mServer.use(mMiddleWare_assessTokenControl);
+// НЕ УДАЛЛЯТЬ - исправить - после обновления версий для создания и расшифровки токенов
+// mServer.use(mMiddleWare_assessTokenControl);
 
 // эта (своя) функция обрабатывает входящие запросы от клиента, используя наши функции обработки из файла 'router.js
 mServer.use(m_Router);
