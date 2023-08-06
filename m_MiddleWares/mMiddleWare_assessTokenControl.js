@@ -4,8 +4,16 @@ import { varsANDfunctions_fromPostService } from '../postService.js';
 
 export default function mMiddleWare_assessTokenControl(req, res, next) {
 
+    console.log("");
     console.log("============= ");
     console.log("ЗАПУСК mMidlWare_assessTokenControl, req.url= " + req.url);
+    console.log("req.method= " + req.method)
+    console.log("Запрос на сервер, req.url= " + req.url);
+    console.log("req.headers=");
+    console.log(req.headers);
+    console.log("req.body=");
+    console.log(req.body);
+    console.log("");
     console.log("req.headers.access_token= " + req.headers.access_token);
 
     let presenceOfProgramEerrors = false;
@@ -31,11 +39,8 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
         && (req.url != "/logOut")
         && (req.url != "/logOutOneGadget")
         && (req.url != "/logOutAllGadgets")
-
         // удалить
         && (req.url != "/get_full_data_from_server") // служебная функция
-
-
     ) {
         // если токен отсутствует
         if (!req.headers.access_token) {
@@ -51,31 +56,19 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
         // След наша фун "validateAccessToken" помимо осуществления проверки возвращает распакованные данные из токена
         console.log("=== ");
         let decodeValidationToken = varsANDfunctions_fromPostService.validateAccessToken(req.headers.access_token);
-        
+
         console.log("decodeValidationToken С ПОМ jwt.verify= ");
         console.log(decodeValidationToken);
         console.log("=== ");
         console.log("decodeValidationToken С ПОМ jwt_decode = ");
         console.log(jwt_decode(req.headers.access_token));
 
-        
-
-
-
-
-
-
-
         // если токен не валиден (напр истек срок действия)
-
         if (!decodeValidationToken) {
             console.log("Прерываем Auth, токен не прошел валидацию");
-            // НЕ УДАЛЛЯТЬ - исправить - после обновления версий для создания и расшифровки токенов
-            /* 
-                        res.status(401).json("m User is not auth");
-                        presenceOfProgramEerrors = true;
-                        return;
-            */
+            res.status(401).json("m User is not auth");
+            presenceOfProgramEerrors = true;
+            return;
         }
 
         // если токен не совпадает с токеном, записанным для данного аккаунта и номера процесса
@@ -118,29 +111,18 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
             req.headers.decodeAT_____user_Email = decodeValidationToken.user_Email;
             req.headers.decodeAT_____mKuiir = decodeValidationToken.mKuiir;
             req.headers.decodeAT_____mGadgetProcess_ID = decodeValidationToken.mGadgetProcess_ID;
+            next();
         }
+
+        else {
+            console.log("Проверка запроса не пройдена, возвращаем 400 ");
+            res.status(400).json("m Bad request");
+        }
+
     }
 
-    // console.log("ПЕРЕД ЗАВЕРШЕНИЕМ ПРОВЕРКИ presenceOfProgramErrors= ");
-    // console.log(presenceOfProgramEerrors);
 
-    if (presenceOfProgramEerrors == false) {
-        // console.log("Запускаем next() ");
-        next();
-    }
-    else {
-        console.log("Проверка запроса не пройдена, возвращаем 400 ");
-        res.status(400).json("m Bad request");
-    }
+    // по умолчанию,- если токен доступа не требуется - передаем выполнение дальше
+    next();
+
 }
-
-
-/*
-Нужно:
-      при извлечении "user_Email" в "postService" заменить:
-      req.body.postDataToServer.user_Email
-      на
-      req.headers.decodeAT_____user_Email
-
-      за исключением функций регистрации и входа 
-*/

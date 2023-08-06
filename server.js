@@ -12,53 +12,19 @@ const mServer = express();
 // === Тут даныые для работы HTTPS протокола
 import https from 'https';
 import fs from 'fs';
-// import path from 'path'; 
-// === Завершение даныых для работы HTTPS протокола
 
-//const mDBmongoose_url = 'mongodb+srv://all_users:all_users@cluster0.bfmbg.mongodb.net/?retryWrites=true&w=majority';
-
-// для отправки клиенту данных для Куки, мы в нашем проекте передаем туда рефреш-токен
 mServer.use(cookieParser());
 mServer.use(fileUpload({}));
-
-// необх для преобр входящей от клиента  строки в JSON
 mServer.use(express.json());
-// тут cors - без указания параметров - работает для всех запросов
-mServer.use(cors(
-    {
-        // следующую инструкцию использовал, чтобы работали запросу с локального сервера во время разработки на задеплоинный сервер
-        // origin: ["http://localhost:3000/", "https://localhost:3000/",]
-    }
-));
+mServer.use(cors());
 
-
-// удалить позже - выведем заголовки входящего запроса
-mServer.use((req, res, next) => {
-    console.log("");
-    console.log("Запрос на сервер, req.url= " + req.url);
-    console.log("req.headers=");
-    console.log(req.headers);
-    console.log("req.body=");
-    console.log(req.body);
-    console.log("");
-    next();
-})
-
-
-// ВАЖНО- cвои МидлВары размещаем перед роутером для своей проверки валидности данных
-// НЕ УДАЛЛЯТЬ - исправить - после обновления версий для создания и расшифровки токенов
-// mServer.use(mMiddleWare_assessTokenControl);
-
-// эта (своя) функция обрабатывает входящие запросы от клиента, используя наши функции обработки из файла 'router.js
+// ВАЖНО- cвои МидлВары размещаем перед роутером 
+mServer.use(mMiddleWare_assessTokenControl);
 mServer.use(m_Router);
-// функция раздачи статических фалов. 'static'-адрес статической папки в корневом каталоге сервера
 mServer.use(express.static('static'));
 
-// =========================
-// Далее идут МидлеВееры
-
 // MiddleWare для обработки ошибок -  длжен располагаться последним в цепочке всех MiddleWare
-mServer.use(m_errorsMiddleWare);
+// mServer.use(m_errorsMiddleWare);
 
 // предварительно создаем SSL-сервер для HTTPS запросов
 /* 
@@ -78,7 +44,7 @@ try {
 } catch (error) {
     console.log(error);
 }
- */
+*/
 
 
 const PORT = 5075;
