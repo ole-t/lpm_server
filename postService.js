@@ -906,8 +906,8 @@ class m_PostService {
     // эта ф. добавляет нового подписчика в список рассылки, прокидывает в этот список колбек функцию
     // и затем ждет вызов прокинутой кол-бек функции, и возвращает ответ сервера
     async m_subscribeFullTime_PS(req, res) {
-        //  console.log("-------------------------------------");
-        //  console.log("вызвана ф. m_subscribeFullTime_PS");
+        console.log("-------------------------------------");
+        console.log("вызвана ф. m_subscribeFullTime_PS");
 
         const userID_fromRequest = req.body.postDataToServer.user_Email;
         const reqID_fromRequest = req.body.postDataToServer.req_ID;
@@ -2265,28 +2265,31 @@ class m_PostService {
 
     async m_GoogleAuth_01_PS(req, res) {
         // ВНИМАНИЕ! Мы используем несколько вариантов Гугл-авторизации, и поскольку не удалось разобраться с обменом кода клиента Гугл на токен доступа Гугл - пока что используем зашифрованный локальный PayLoad от клиента
-        console.log("=========================");
-        console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
-        try {
-            console.log(req.body);
-        } catch (error) {
-            console.log("Ошибка в m_GoogleAuth_01_PS");
-            console.log(error);
-        }
+        // console.log("=========================");
+        // console.log("ЗАПУСК m_GoogleAuth_01_PS req.body= ");
 
-        try {
-            console.log("=========================");
-            console.log("Пробное прочтение файла - m_GoogleAuth_01_PS");
-            // const pathNameID = 'dataBase/' + 'userReestr' + '.json';
-            const pathNameID = get_valid_adress_fileOrFolder("/dataBase/m_DB.json");
-            let data = fs.readFileSync(pathNameID, 'utf8');
-            console.log("Файл успешно прочитан - mLoadUserReestr");
-            // console.log(data); 
-        } catch (error) {
-            console.log("Ошибка чтения файла - mLoadUserReestr");
-            console.log(error);
-        }
+        // Удалить
+        /* 
+                try {
+                    console.log(req.body);
+                } catch (error) {
+                    console.log("Ошибка в m_GoogleAuth_01_PS");
+                    console.log(error);
+                }
 
+                try {
+                    console.log("=========================");
+                    console.log("Пробное прочтение файла - m_GoogleAuth_01_PS");
+                    // const pathNameID = 'dataBase/' + 'userReestr' + '.json';
+                    const pathNameID = get_valid_adress_fileOrFolder("/dataBase/m_DB.json");
+                    let data = fs.readFileSync(pathNameID, 'utf8');
+                    console.log("Файл успешно прочитан - mLoadUserReestr");
+                    // console.log(data); 
+                } catch (error) {
+                    console.log("Ошибка чтения файла - mLoadUserReestr");
+                    console.log(error);
+                }
+        */
 
 
         try {
@@ -3949,8 +3952,8 @@ function get_valid_adress_fileOrFolder(absPathToFile) {
         let localPathFromCurrentFolder = path.join(absPathToFile);
 
         let fullAdress = globalPathToCurrentFolder + localPathFromCurrentFolder;
-        console.log(" ");
-        console.log("fullAdress= " + fullAdress);
+        // console.log(" ");
+        // console.log("fullAdress= " + fullAdress);
         return fullAdress;
     } catch (error) {
         console.log("Ошибка из get_valid_adress_fileOrFolder:");

@@ -7,30 +7,18 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
     console.log("");
     console.log("============= ");
     console.log("ЗАПУСК mMidlWare_assessTokenControl, req.url= " + req.url);
-    console.log("req.method= " + req.method)
-    console.log("Запрос на сервер, req.url= " + req.url);
-    console.log("req.headers=");
-    console.log(req.headers);
-    console.log("req.body=");
-    console.log(req.body);
-    console.log("");
-    console.log("req.headers.accesstoken= " + req.headers.accesstoken);
+    //console.log("req.method= " + req.method)
+    //console.log("req.headers=");
+    //console.log(req.headers);
+    //console.log("req.body=");
+    //console.log(req.body);
+    //console.log("");
+    //console.log("req.headers.accesstoken= " + req.headers.accesstoken);
 
     let presenceOfProgramEerrors = false;
 
-    // console.log("req.method= " + req.method +  ", req.method= " + req.url);
-    // console.log("req.params = " + req.params);
-    // console.log("req.method = " + req.method);
-    // console.log("req.headers = ");
-    // console.log(req.headers);
-    // console.log("req.headers.accesstoken = ");
-    // console.log(req.headers.accesstoken);
-    // console.log("-------------- ");
-    // console.log("req.body = ");
-    // console.log(req.body);
-
     // Если запрос предусматривает наличие токена (это все POST запросы за исключением регистрации,  авторизации и refreshToken)
-    if ((req.method == "POST") 
+    if ((req.method == "POST")
         // исключения:
         && (req.url != "/registration_User") // регистрация - тут данные о пользователя извлекаем из body
         && (req.url != "/changePassword") // замена/восстановление пароля - тут данные о пользователя извлекаем из body
@@ -57,11 +45,8 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
         console.log("=== ");
         let decodeValidationToken = varsANDfunctions_fromPostService.validateAccessToken(req.headers.accesstoken);
 
-        console.log("decodeValidationToken С ПОМ jwt.verify= ");
-        console.log(decodeValidationToken);
-        console.log("=== ");
-        console.log("decodeValidationToken С ПОМ jwt_decode = ");
-        console.log(jwt_decode(req.headers.accesstoken));
+        // console.log("decodeValidationToken С ПОМ jwt.verify= ");
+        // console.log(decodeValidationToken);// 
 
         // если токен не валиден (напр истек срок действия)
         if (!decodeValidationToken) {
@@ -111,18 +96,14 @@ export default function mMiddleWare_assessTokenControl(req, res, next) {
             req.headers.decodeAT_____user_Email = decodeValidationToken.user_Email;
             req.headers.decodeAT_____mKuiir = decodeValidationToken.mKuiir;
             req.headers.decodeAT_____mGadgetProcess_ID = decodeValidationToken.mGadgetProcess_ID;
-            next();
         }
-
-        else {
-            console.log("Проверка запроса не пройдена, возвращаем 400 ");
-            res.status(400).json("m Bad request");
-        }
-
     }
 
-
-    // по умолчанию,- если токен доступа не требуется - передаем выполнение дальше
-    next();
-
+    // Если проверка пройдена - продолжаем обработку сервером
+    if (presenceOfProgramEerrors == false) next();
+    else {
+        console.log("Проверка запроса не пройдена, возвращаем 400 ");
+        res.status(401).json("m Bad request");
+        return;
+    }
 }
