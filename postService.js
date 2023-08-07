@@ -400,8 +400,8 @@ class m_PostService {
         }
 
         catch (error) {
-            //  console.log("Ошибка m_addNewProject_PS - ошибка добавления в dataBD_fromServer:");
-            //  console.log(error);
+            console.log("Ошибка m_addNewProject_PS - ошибка добавления в dataBD_fromServer:");
+            console.log(error);
             return error;
         }
 
@@ -409,8 +409,8 @@ class m_PostService {
         try {
             add_AccessProjectsForUser_inReestr(req.body.postDataToServer.user_Email, req.body.postDataToServer.project_ID, "role_Admin", req.body.postDataToServer.user_Email);
         } catch (error) {
-            //  console.log("Ошибка m_addNewProject_PS - ошибка добавления в реестр:");
-            //  console.log(error); 
+            console.log("Ошибка m_addNewProject_PS - ошибка добавления в реестр:");
+            console.log(error);
             return error;
         }
 
@@ -478,7 +478,8 @@ class m_PostService {
                 saveAllDataHandle();
             }
             catch (error) {
-                console.log("Ошибка m_newMessageChatProject_PS --- push(new MessageInChat " + error);
+                console.log("Ошибка m_newMessageChatProject_PS --- push(new MessageInChat ");
+                console.log(error);
             }
 
             // console.log("После добавления сообщения - Список сообщений= ");
@@ -501,7 +502,8 @@ class m_PostService {
                 // вызываем ф. responseLongPoolling, и сразу заполняем аргументы:
                 responseLongPoolling(responseLongPoolling_Data);
             } catch (error) {
-                //  console.log(error);
+                console.log("Ошибка Попытка вызова responseLongPoolling");
+                console.log(error);
             }
 
             let dataFromServer = {
@@ -513,7 +515,8 @@ class m_PostService {
             return dataFromServer; // ретерним только для корректного закрытия пост-запроса на стороне браузера. Ответ клиенту в чат идет отдельно через LongPulling
         }
         catch (error) {
-            return ("Ошибка из m_PostService: " + error);
+            return ("Ошибка из m_PostService: ");
+            return (error);
         }
     }
     //----------------------------------
@@ -580,7 +583,8 @@ class m_PostService {
                 responseLongPoolling(dataFromServer);
             }
             catch (error) {
-                console.log("Ошибка из m_PostService --- responseLongPoolling: " + error);
+                console.log("Ошибка из m_PostService --- responseLongPoolling: ");
+                console.log(error);
             }
 
             return dataFromServer; // возвращаем ответ
@@ -3761,98 +3765,105 @@ function add_chat_in_chatBD(project_OR_subProject___id, parent_Project_ID, known
  */
 //----------------------------------
 async function mSaveFileDB(data) {
-    //  console.log("---------");
-    //  console.log("Функция mSaveFileDB, 'data' =");
-    //  console.log(data);
-
-    // let pathNameID = './dataBase/' + 'm_DB' + '.json';
-    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
     try {
+        console.log("---------");
+        console.log("Функция mSaveFileDB, 'data' =");
+        // let pathNameID = './dataBase/' + 'm_DB' + '.json';
+        let pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
         fs.writeFileSync(pathNameID, JSON.stringify(data));
-    } catch (err) {
-        // console.log("Ошибка сохранения файла");
-        // console.log(err);
+        console.log("Был успешно сохранен m_DB.json");
+    } catch (error) {
+        console.log("Ошибка сохранения файла m_DB.json");
+        console.log(error);
     }
 }
 //----------------------------------
 async function mSaveUserReestr_inBD(data) {
-    // let pathNameID = './dataBase/' + 'userReestr' + '.json';
-    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
+
     try {
+        console.log("---------");
+        console.log("Функция mSaveUserReestr_inBD, 'data' =");
+        // let pathNameID = './dataBase/' + 'userReestr' + '.json';
+        let pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
         fs.writeFileSync(pathNameID, JSON.stringify(data));
-    } catch (err) {
-        // console.log("Ошибка сохранения файла");
-        // console.log(err);
+        console.log("Был успешно сохранен userReestr.json");
+    } catch (error) {
+        console.log("Ошибка сохранения файла userReestr.json");
+        console.log(error);
     }
 }
 //----------------------------------
-function mLoadFileDB() {
-    // const pathNameID = './dataBase/' + 'm_DB' + '.json';
-    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
+async function mSaveChatDB(data) {
+
     try {
+        console.log("---------");
+        console.log("Функция mSaveChatDB, 'data' =");
+        // let pathNameID = './dataBase/' + 'chatDB' + '.json';
+        let pathNameID = get_valid_adress_fileOrFolder('/dataBase/chatDB.json');
+        fs.writeFileSync(pathNameID, JSON.stringify(data));
+        console.log("Был успешно сохранен chatDB.json");
+    } catch (error) {
+        console.log("Ошибка сохранения файла chatDB.json");
+        console.log(error);
+    }
+}
+
+//----------------------------------
+function mLoadFileDB() {
+
+    try {
+        // const pathNameID = './dataBase/' + 'm_DB' + '.json';
+        const pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
         let data = fs.readFileSync(pathNameID, 'utf8');
-        // console.log("Выполнено fs.readFileSync:");
-        // console.log(data);
+        console.log("Был успешно прочитан m_DB.json");
         if ((data != undefined) && (data != null)) {
             data = JSON.parse(data);
         }
         return data;
-    } catch (err) {
-        // console.log("Ошибка чтения файла");
-        // console.log(err);
+    } catch (error) {
+        console.log("Ошибка чтения файла m_DB.json");
+        console.log(error);
         return null;
     }
 }
 //----------------------------------
 function mLoadUserReestr() {
-    // const pathNameID = './dataBase/' + 'userReestr' + '.json';
-    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
+
     try {
+        // const pathNameID = './dataBase/' + 'userReestr' + '.json';
+        const pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
         let data = fs.readFileSync(pathNameID, 'utf8');
         if ((data != undefined) && (data != null)) {
             data = JSON.parse(data);
         }
+        console.log("Был успешно прочитан userReestr.json");
         return data;
-    } catch (err) {
-        // console.log("Ошибка чтения файла");
-        // console.log(err);
+    } catch (error) {
+        console.log("Ошибка чтения файла userReestr.json");
+        console.log(error);
         return null;
     }
 }
 //----------------------------------
 function mLoadChatDB() {
-    // const pathNameID = './dataBase/' + 'chatDB' + '.json';
-    const pathNameID = get_valid_adress_fileOrFolder('/dataBase/chatDB.json');
+
     try {
+        // const pathNameID = './dataBase/' + 'chatDB' + '.json';
+        const pathNameID = get_valid_adress_fileOrFolder('/dataBase/chatDB.json');
         let data = fs.readFileSync(pathNameID, 'utf8');
         if ((data != undefined) && (data != null)) {
             data = JSON.parse(data);
         }
+        console.log("Был успешно прочитан chatDB.json");
         return data;
-    } catch (err) {
-        // console.log("Ошибка чтения файла");
-        // console.log(err);
+    } catch (error) {
+        console.log("Ошибка чтения файла chatDB.json");
+        console.log(error);
         return null;
     }
 }
-//----------------------------------
-function set_timeUpdate_wasRead_subChat(user_Email, project_ID, subProject_ID, time_wasReadChat) {
-    let object_WasReadEvents_forSubproject___BY_ID = get__OR___ADD_and_GET___object_WasReadEvents_forSubproject___BY_ID(user_Email, project_ID, subProject_ID);
-    // обновляем время просмотра субчата в реестре 
-    object_WasReadEvents_forSubproject___BY_ID.time_wasRead_subChat = time_wasReadChat;
-}
-//----------------------------------
-//----------------------------------
-async function mSaveChatDB(data) {
-    // let pathNameID = './dataBase/' + 'chatDB' + '.json';
-    let pathNameID = get_valid_adress_fileOrFolder('/dataBase/chatDB.json');
-    try {
-        fs.writeFileSync(pathNameID, JSON.stringify(data));
-    } catch (err) {
-        // console.log("Ошибка сохранения файла");
-        // console.log(err);
-    }
-}
+
+
 //----------------------------------
 async function saveData() {
     // console.log("Запуск saveData");
@@ -3908,15 +3919,24 @@ async function saveData() {
     }
 
 }
-
 //----------------------------------
 // исправить - удалить эту функцию и ее принудительное использование в тексте программы
 function saveAllDataHandle() {
-    mSaveFileDB(dataBD_fromServer);
-    mSaveUserReestr_inBD(userReestr);
-    mSaveChatDB(chat_DB);
+    if (access_SaveData == true) {
+        access_SaveData = false;
+        mSaveFileDB(dataBD_fromServer);
+        mSaveUserReestr_inBD(userReestr);  
+        mSaveChatDB(chat_DB);
+    }
+    access_SaveData = true;
 }
-
+//----------------------------------
+//----------------------------------
+function set_timeUpdate_wasRead_subChat(user_Email, project_ID, subProject_ID, time_wasReadChat) {
+    let object_WasReadEvents_forSubproject___BY_ID = get__OR___ADD_and_GET___object_WasReadEvents_forSubproject___BY_ID(user_Email, project_ID, subProject_ID);
+    // обновляем время просмотра субчата в реестре 
+    object_WasReadEvents_forSubproject___BY_ID.time_wasRead_subChat = time_wasReadChat;
+}
 //----------------------------------
 
 function getOnlineTimeCurrentUser(user_Email) {
