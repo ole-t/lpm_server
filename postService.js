@@ -955,7 +955,7 @@ class m_PostService {
     // Обработчики для уведомлений
     async m_timeUpdate_wasReadChat_PS(req, res) {
         //  console.log("-------------------------------------");
-        //  console.log("вызвана ф. m_subscribeFullTime_PS");
+        //  console.log("вызвана ф. m_timeUpdate_wasReadChat_PS");
         let findUserIndex = findUser_Index_inReestr(req.body.postDataToServer.user_Email);
 
         if (findUserIndex != null && findUserIndex >= 0) {

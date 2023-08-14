@@ -16,7 +16,20 @@ import fs from 'fs';
 mServer.use(cookieParser());
 mServer.use(fileUpload({}));
 mServer.use(express.json());
-mServer.use(cors());
+mServer.use(cors(
+    {
+        origin: [
+            "http://localhost:3000/",
+            "http://127.0.0.1:3000/", // это наш localhost:3000 в виде IP адреса
+            "https://litepm.com/",
+
+        ],
+        // след необязательно - указывает тип допустимых запросов
+        methods: ['GET', 'POST'],
+        // след для разрешения отправки Куки
+        // credentials: true,
+    }
+));
 
 // ВАЖНО- cвои МидлВары размещаем перед роутером 
 mServer.use(mMiddleWare_assessTokenControl);

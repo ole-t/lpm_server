@@ -332,7 +332,7 @@ class m_PostController {
     async m_timeUpdate_wasReadChat(req, res) {
 
         try {
-            //const longPoollingToServer = await m_PostService.m_subscribeFullTime_PS(req, res);
+            //const longPoollingToServer = await m_PostService.m_timeUpdate_wasReadChat(req, res);
             //res.status(200).json(longPoollingToServer); // res вызываем внутри longPoollingToServer
             await m_PostService.m_timeUpdate_wasReadChat_PS(req, res);
         } catch (error) {
@@ -343,7 +343,7 @@ class m_PostController {
     async m_timeUpdate_wasReadProjectSettings(req, res) {
 
         try {
-            //const longPoollingToServer = await m_PostService.m_subscribeFullTime_PS(req, res);
+            //const longPoollingToServer = await m_PostService.m_timeUpdate_wasReadProjectSettings(req, res);
             //res.status(200).json(longPoollingToServer); // res вызываем внутри longPoollingToServer
             await m_PostService.m_timeUpdate_wasReadProjectSettings_PS(req, res);
         } catch (error) {
@@ -353,7 +353,7 @@ class m_PostController {
     //---------
     async m_timeUpdate_wasRead_subChat(req, res) {
         try {
-            //const longPoollingToServer = await m_PostService.m_subscribeFullTime_PS(req, res);
+            //const longPoollingToServer = await m_PostService.m_timeUpdate_wasRead_subChat(req, res);
             //res.status(200).json(longPoollingToServer); // res вызываем внутри longPoollingToServer
             await m_PostService.m_timeUpdate_wasRead_subChat_PS(req, res);
         } catch (error) {
