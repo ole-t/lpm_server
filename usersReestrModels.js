@@ -9,7 +9,7 @@ class User_inReestr {
         this.autorisationData.activationLink = activationLink;
         this.corpAccounts.ownCorpAccounts[0] = {
             corpAccount_ID: myRandomId(),
-            corpAccount_Name: (user_Email + "-defaultCorpAccount"),
+            corpAccount_Name: ("PtivateDefaultCorpAccount"),
             // defaultAdmin_ID__forThisCorpAccount: user_Email,
         }; // для базового корп аккаунта устанавливаем это значение
 

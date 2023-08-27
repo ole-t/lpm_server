@@ -18,6 +18,7 @@ mServer.use(fileUpload({}));
 mServer.use(cors({
 
     origin: [
+        // тут перечисляем список адресов, с которых сервер принимавет запросы. ВАЖНО: в конце адреса не ставим флеш "/"
         "http://localhost:3000",
         "https://litepm.com",
         "http://litepm.com",

@@ -119,8 +119,10 @@ del___Moderator_2();
 
 // УДАЛИТЬ - единоразовая служебная функция
 // добавляем базовые corpAccount всем пользователям
-/* 
-function saveDataControl() {
+
+
+
+async function saveDataControl() {
     // console.log("Запуск saveDataControl");
     setTimeout(
         () => {
@@ -132,11 +134,12 @@ function saveDataControl() {
                 // console.log(error);
             }
             saveDataControl();
-        }, 1000    // 60000
+        }, 900000 // 15 минут
     )
 }
 saveDataControl();
- */
+
+
 
 // УДАЛИТЬ - единоразовая служебная функция
 /* 
@@ -1267,15 +1270,7 @@ class m_PostService {
                     newContactListFromServer: userReestr[findUserIndex].contactList,
                 }
 
-                // return dataFromServer;
-
-                console.log("Начало таймера");
-                setTimeout(() => {
-                    console.log("dataFromServer=");
-                    console.log(dataFromServer);
-                    res.status(200).json(dataFromServer);
-                }, 3000);
-
+                res.status(200).json(dataFromServer);
 
             }
         }
@@ -3870,7 +3865,7 @@ async function saveData() {
     // сохранение БД и реестра
     if (need_SaveData == true && access_SaveData == true) {
         // console.log("Запускаем сохранение saveData");
-        need_SaveData = false;
+        // need_SaveData = false;
         access_SaveData = false; // закрываем доступ для предотвращения дублирования функции
         try {
             // сохраняем БД
@@ -3886,7 +3881,7 @@ async function saveData() {
 
         try {
             // затем сохраняем реестр
-            mSaveUserReestr_inBD(userReestr);
+            await mSaveUserReestr_inBD(userReestr);
             // console.log("Ф.saveData --- успешно сохранена БД");
         } catch (error) {
             // console.log("Ошибка сохранения БД");
@@ -3901,7 +3896,7 @@ async function saveData() {
 
     // сохранение чата
     if (need_SaveChat == true && access_SaveChat == true) {
-        need_SaveChat = false;
+        // need_SaveChat = false;
         access_SaveChat = false; // закрываем доступ для предотвращения дублирования функции
         try {
             // сохраняем БД
@@ -3922,13 +3917,17 @@ async function saveData() {
 //----------------------------------
 // исправить - удалить эту функцию и ее принудительное использование в тексте программы
 function saveAllDataHandle() {
-    if (access_SaveData == true) {
-        access_SaveData = false;
-        mSaveFileDB(dataBD_fromServer);
-        mSaveUserReestr_inBD(userReestr);  
-        mSaveChatDB(chat_DB);
-    }
-    access_SaveData = true;
+
+    /* 
+        if (access_SaveData == true) {
+            access_SaveData = false;
+            mSaveFileDB(dataBD_fromServer);
+            mSaveUserReestr_inBD(userReestr);
+            mSaveChatDB(chat_DB);
+        }
+        access_SaveData = true;
+     */
+
 }
 //----------------------------------
 //----------------------------------
