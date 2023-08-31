@@ -6,6 +6,9 @@ import m_Router from './router.js';
 import cookieParser from "cookie-parser";
 import m_errorsMiddleWare from './m_MiddleWares/m_errorsMiddleWare.js';
 import mMiddleWare_assessTokenControl from './m_MiddleWares/mMiddleWare_assessTokenControl.js';
+import { get_valid_adress_fileOrFolder } from './postService.js'
+import mConfigData from './mConfig.js'
+
 //=======================
 const mServer = express();
 
@@ -33,51 +36,22 @@ mServer.use(cors({
 
 mServer.use(express.json());
 // ВАЖНО- cвои МидлВары размещаем перед роутером 
-mServer.use(mMiddleWare_assessTokenControl);
+mServer.use(mMiddleWare_assessTokenControl); ``
 mServer.use(m_Router);
-mServer.use(express.static('static'));
+
+// Поскольку файлы БД и статические файлы перенесены вор внешнюю папку относительно расположения файла сервера, то в качестве дополнительного параметра передаем адрес к папке static
+// mServer.use(express.static('static')); // НЕ УДАЛЯТЬ - это старый вариант, когда папка static находилась в корневом каталоге сервара
+mServer.use(express.static(
+    get_valid_adress_fileOrFolder(mConfigData.static_Adress)
+)); // это новый  вариант, когда папка static перенесена во внешний каталог
+
+
 
 // MiddleWare для обработки ошибок -  длжен располагаться последним в цепочке всех MiddleWare
 // mServer.use(m_errorsMiddleWare);
 
-// предварительно создаем SSL-сервер для HTTPS запросов
-/* 
-const m_HTTPS_server = null;
-try {
-    // помещаем в try-catch, поскольку бывают проблемы с сертификатами
-    m_HTTPS_server = https.createServer(
-        {
-            // key: fs.readFileSync('./m_SLL_sertificate/privkey.pem', 'utf8'),
-            // cert: fs.readFileSync('./m_SLL_sertificate/fullchain.pem', 'utf8')
-
-            // key: fs.readFileSync(path.join(__dirname, 'm_SLL_sertificate', 'key.pem')),
-            // cert: fs.readFileSync(path.join(__dirname, 'm_SLL_sertificate', 'cert.pem'))
-        },
-        mServer
-    )
-} catch (error) {
-    console.log(error);
-}
-*/
-
-
 const PORT = 5075;
 async function mStartApp() {
-
-    /* 
-        try {
-            // console.clear(); 
-            // console.log(fs.readFileSync('./m_SLL_sertificate/privkey.pem', 'utf8'));
-            // console.log(fs.readFileSync('./m_SLL_sertificate/fullchain.pem', 'utf8'));
-            m_HTTPS_server.listen(PORT, () => { console.log("Server  is start +SSL  " + PORT) });
-        }
-        catch (error) {
-            console.log("m_ Ошибка сервера:");
-            console.log(error);
-        }
-     */
-
-
     try {
         mServer.listen(PORT, () => {
             // console.clear();
@@ -90,7 +64,5 @@ async function mStartApp() {
         console.log("m_ Ошибка сервера:");
         console.log(error);
     }
-
-
 }
 mStartApp(); // запускаем сервер

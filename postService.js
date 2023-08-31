@@ -44,7 +44,7 @@ let mySecretKey_forRefreshToken = "thisIsMySecretKey_ForRefreshToken";
 // загружаем данные с файла при запуске сервера
 function firstLoadData() {
     const qqq = mLoadFileDB();
-    if (qqq != undefined && qqq != null) {
+    if (qqq) {
         dataBD_fromServer = qqq;
         //  console.log("Состояние dataBD_fromServer при песле однократного чтения файла перед запуском сервера: ");
         //  console.log(dataBD_fromServer);
@@ -1414,7 +1414,7 @@ class m_PostService {
             // console.log(newAvatarFileName);
 
             // let pathSaveFile = './static/avatars/' + newAvatarFileName;
-            let pathSaveFile = get_valid_adress_fileOrFolder('/static/avatars/' + newAvatarFileName);
+            let pathSaveFile = get_valid_adress_fileOrFolder(mConfigData.static_Adress + 'avatars/' + newAvatarFileName);
 
             // console.log("pathSaveFile= ");
             // console.log(pathSaveFile);
@@ -1444,12 +1444,15 @@ class m_PostService {
             let dataFromServer = null;
             let user_Email = req.body.postDataToServer.user_Email;
             let avatarFileName = "av___" + user_Email + "." + "jpeg";
+
+
+
             // console.log("newAvatarFileName= ");
             // console.log(newAvatarFileName);            
 
             // удаляем файла с диска
             // let pathDeleteFile = './static/avatars/' + avatarFileName;
-            let pathDeleteFile = get_valid_adress_fileOrFolder('/static/avatars/' + avatarFileName);
+            let pathDeleteFile = get_valid_adress_fileOrFolder(mConfigData.static_Adress + 'avatars/' + avatarFileName);
 
 
             if (fs.existsSync(pathDeleteFile)) {
@@ -2280,7 +2283,7 @@ class m_PostService {
                     console.log("=========================");
                     console.log("Пробное прочтение файла - m_GoogleAuth_01_PS");
                     // const pathNameID = 'dataBase/' + 'userReestr' + '.json';
-                    const pathNameID = get_valid_adress_fileOrFolder("/dataBase/m_DB.json");
+                    const pathNameID = get_valid_adress_fileOrFolder("../DataBase/m_DB.json");
                     let data = fs.readFileSync(pathNameID, 'utf8');
                     console.log("Файл успешно прочитан - mLoadUserReestr");
                     // console.log(data); 
@@ -3051,8 +3054,8 @@ class mFile_service_constructor {
         console.log("ЗАПУСК createDir... ");
         try {
             // создаем родительскую папку Юзера
-            // let path_1 = './dataBase/uploadFiles/' + user_Email;
-            let path_1 = get_valid_adress_fileOrFolder('/dataBase/uploadFiles/' + user_Email);
+            // let path_1 = '.../DataBase/uploadFiles/' + user_Email;
+            let path_1 = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'uploadFiles/' + user_Email);
 
             if (!fs.existsSync(path_1)) {
                 fs.mkdirSync(path_1);
@@ -3196,8 +3199,8 @@ class mFile_service_constructor {
     //---------
     async deleteFile(user_Email, project_ID, file_ID) {
         try {
-            // let pathDeleteDir = './dataBase/uploadFiles/' + user_Email + '/' + project_ID + '/';
-            let pathDeleteFile = get_valid_adress_fileOrFolder('/dataBase/uploadFiles/' + user_Email + '/' + project_ID + '/');
+            // let pathDeleteDir = '.../DataBase/uploadFiles/' + user_Email + '/' + project_ID + '/';
+            let pathDeleteFile = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'uploadFiles/' + user_Email + '/' + project_ID + '/');
 
             if (fs.existsSync(pathDeleteFile)) {
                 fs.unlinkSync(pathDeleteFile); // удаляем файл
@@ -3305,7 +3308,7 @@ class mFile_service_constructor {
             // загружаем файл
             try {
                 // определяем путь папки для поиска файла
-                let pathLoadDir = './dataBase/uploadFiles/' + admin_ID + '/' + project_ID + '/';
+                let pathLoadDir = '.../DataBase/uploadFiles/' + admin_ID + '/' + project_ID + '/';
                 let pathLoadFile = pathLoadDir + file_ID;
                 console.log("pathLoadFile= ");
                 console.log(pathLoadFile);
@@ -3763,8 +3766,8 @@ async function mSaveFileDB(data) {
     try {
         console.log("---------");
         console.log("Функция mSaveFileDB, 'data' =");
-        // let pathNameID = './dataBase/' + 'm_DB' + '.json';
-        let pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
+        // let pathNameID = '.../DataBase/' + 'm_DB' + '.json';
+        let pathNameID = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'm_DB.json');
         fs.writeFileSync(pathNameID, JSON.stringify(data));
         console.log("Был успешно сохранен m_DB.json");
     } catch (error) {
@@ -3778,8 +3781,8 @@ async function mSaveUserReestr_inBD(data) {
     try {
         console.log("---------");
         console.log("Функция mSaveUserReestr_inBD, 'data' =");
-        // let pathNameID = './dataBase/' + 'userReestr' + '.json';
-        let pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
+        // let pathNameID = '.../DataBase/' + 'userReestr' + '.json';
+        let pathNameID = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'userReestr.json');
         fs.writeFileSync(pathNameID, JSON.stringify(data));
         console.log("Был успешно сохранен userReestr.json");
     } catch (error) {
@@ -3793,8 +3796,8 @@ async function mSaveChatDB(data) {
     try {
         console.log("---------");
         console.log("Функция mSaveChatDB, 'data' =");
-        // let pathNameID = './dataBase/' + 'chatDB' + '.json';
-        let pathNameID = get_valid_adress_fileOrFolder('/dataBase/chatDB.json');
+        // let pathNameID = '.../DataBase/' + 'chatDB' + '.json';
+        let pathNameID = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'chatDB.json');
         fs.writeFileSync(pathNameID, JSON.stringify(data));
         console.log("Был успешно сохранен chatDB.json");
     } catch (error) {
@@ -3807,8 +3810,8 @@ async function mSaveChatDB(data) {
 function mLoadFileDB() {
 
     try {
-        // const pathNameID = './dataBase/' + 'm_DB' + '.json';
-        const pathNameID = get_valid_adress_fileOrFolder('/dataBase/m_DB.json');
+        // const pathNameID = '.../DataBase/' + 'm_DB' + '.json';
+        const pathNameID = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'm_DB.json');
         let data = fs.readFileSync(pathNameID, 'utf8');
         console.log("Был успешно прочитан m_DB.json");
         if ((data != undefined) && (data != null)) {
@@ -3825,8 +3828,9 @@ function mLoadFileDB() {
 function mLoadUserReestr() {
 
     try {
-        // const pathNameID = './dataBase/' + 'userReestr' + '.json';
-        const pathNameID = get_valid_adress_fileOrFolder('/dataBase/userReestr.json');
+        const pathNameID = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'userReestr.json');
+
+
         let data = fs.readFileSync(pathNameID, 'utf8');
         if ((data != undefined) && (data != null)) {
             data = JSON.parse(data);
@@ -3843,8 +3847,8 @@ function mLoadUserReestr() {
 function mLoadChatDB() {
 
     try {
-        // const pathNameID = './dataBase/' + 'chatDB' + '.json';
-        const pathNameID = get_valid_adress_fileOrFolder('/dataBase/chatDB.json');
+        // const pathNameID = '.../DataBase/' + 'chatDB' + '.json';
+        const pathNameID = get_valid_adress_fileOrFolder(mConfigData.db_Adress + 'chatDB.json');
         let data = fs.readFileSync(pathNameID, 'utf8');
         if ((data != undefined) && (data != null)) {
             data = JSON.parse(data);
@@ -3956,24 +3960,36 @@ function getOnlineTimeCurrentUser(user_Email) {
 //-------------------------------
 // Эта функция возвращает корректный адрес от корневой папки операционной системы до указанных в запросе файлов/папок 
 function get_valid_adress_fileOrFolder(absPathToFile) {
+
+
     try {
-        /* 
-                let pathNameID = "/dataBase/dataBase.json";
-                console.log("dirname= " + path.dirname(pathNameID));
-                console.log("basename= " + path.basename(pathNameID));
-                console.log("extname= " + path.extname(pathNameID));
-        */
+        console.log("ЗАПУСК get_valid_adress_fileOrFolder");
 
         // Тут получаем откорректированный полный путь от корневой папки операционной системы до места вызова этой функции
-        let globalPathToCurrentFolder = path.resolve();
+        // НЕ УДАЛЯТЬ. ЭТОТ МЕТОД РАБОТАЕТ, ЕСЛИ ИСКОМЫЙ ФАЙЛ НАХОДИТСЯ В ТЕКУЩЕЙ ИЛИ ВО ВЛОЖЕННЫХ ПАПКАХ
+        /* 
+            let globalPathToCurrentFolder = path.resolve();
+            console.log("globalPathToCurrentFolder= " + globalPathToCurrentFolder);
+            console.log(" ");
+     
+            // Тут получаем откорректированный абсолютный путь от места вызова функции до указанного файла/папки
+            let localPathFromCurrentFolder = path.join(absPathToFile);
+            console.log("localPathFromCurrentFolder= " + localPathFromCurrentFolder);
+            console.log(" ");
+     
+            let fullAdress = globalPathToCurrentFolder + localPathFromCurrentFolder;
+            console.log("fullAdress= " + fullAdress);
+            console.log(" ");
+        */
 
-        // Тут получаем откорректированный абсолютный путь от места вызова функции до указанного файла/папки
-        let localPathFromCurrentFolder = path.join(absPathToFile);
+        // см. инфо тут: https://nodejs.org/api/path.html
+        // Тут получаем откорректированный относительный путь от места вызова до целевого файла
+        let path_normalize = path.normalize(absPathToFile);
+        console.log("path_normalize= " + path_normalize);
+        console.log(" ");
 
-        let fullAdress = globalPathToCurrentFolder + localPathFromCurrentFolder;
-        // console.log(" ");
-        // console.log("fullAdress= " + fullAdress);
-        return fullAdress;
+        // return fullAdress;
+        return path_normalize;
     } catch (error) {
         console.log("Ошибка из get_valid_adress_fileOrFolder:");
         console.log(error);
@@ -3992,7 +4008,7 @@ function myRandomId() {
 
 //===============================
 export default new m_PostService();
-export { mUserService, mFile_service };
+export { mUserService, mFile_service, get_valid_adress_fileOrFolder };
 // экспортируем отдельные функции, чтобы не переписывать их в других файлах
 export let varsANDfunctions_fromPostService = {
     userReestr: userReestr,

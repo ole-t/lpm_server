@@ -5,9 +5,14 @@ const mConfigData = {
     // serverAdress: 5075,
     serverAdress: "http://localhost:5075/",
 
-    clientAdress: 'http://localhost:3000',
-    // clientAdress: "litepm.com/",
-    // clientAdress: "https://litepm.com/",
+    // путь к папке с БД
+    db_Adress: '../DataBase/',
+
+    // путь к папке static
+    static_Adress: '../DataBase/static/',
+
+    // clientAdress: 'http://localhost:3000',
+    clientAdress: "litepm.com",
 
 }
 
