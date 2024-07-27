@@ -12,8 +12,8 @@ const mConfigData = {
     static_Adress: '../DataBase/static/',
 
     // clientAdress: 'http://localhost:3000',
-    clientAdress: "litepm.com",
-
+    // clientAdress: "litepm.com",
+    clientAdress:"ole-t.github.io/lite_PM",
 }
 
 //------------------
